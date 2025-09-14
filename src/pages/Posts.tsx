@@ -54,16 +54,19 @@ const Posts = () => {
   const handleAddPost = async (e) => {
     e.preventDefault();
     try {
+      // Get user ID or use null
+      const { data: { user } } = await supabase.auth.getUser();
+      
       const { data, error } = await supabase
         .from('posts')
         .insert([{
           title: newPost.title,
           content: newPost.content,
           excerpt: newPost.excerpt,
-          category_id: newPost.category_id,
+          category_id: newPost.category_id || null,
           status: newPost.status,
           slug: newPost.title.toLowerCase().replace(/\s+/g, '-'),
-          author_id: (await supabase.auth.getUser()).data.user?.id
+          author_id: user?.id || null
         }]);
       
       if (error) throw error;
