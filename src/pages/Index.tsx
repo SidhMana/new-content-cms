@@ -1,76 +1,32 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuth } from '@/hooks/useAuth';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
-  const { user, loading, signOut } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!loading && !user) {
-      navigate('/auth');
-    }
-  }, [user, loading, navigate]);
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <div className="text-center">
-          <h2 className="text-xl">Loading...</h2>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null; // Will redirect to auth
-  }
-
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-6xl mx-auto">
-        <header className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold">Content CMS Dashboard</h1>
-            <p className="text-muted-foreground">Welcome back, {user.email}</p>
-          </div>
-          <Button onClick={signOut} variant="outline">
-            Sign Out
-          </Button>
-        </header>
-
+    <div className="min-h-screen bg-gray-50">
+      <div className="p-6">
+        <h1 className="text-3xl font-bold mb-6">Content CMS Dashboard</h1>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Posts</CardTitle>
-              <CardDescription>Manage your blog posts and articles</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full">View Posts</Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Categories</CardTitle>
-              <CardDescription>Organize content with categories</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full">Manage Categories</Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Tags</CardTitle>
-              <CardDescription>Tag your content for better organization</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button className="w-full">Manage Tags</Button>
-            </CardContent>
-          </Card>
+          <Link to="/posts" className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
+            <h2 className="text-xl font-semibold mb-2">Posts</h2>
+            <p className="text-gray-600">Manage your blog posts and articles</p>
+          </Link>
+          
+          <Link to="/categories" className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
+            <h2 className="text-xl font-semibold mb-2">Categories</h2>
+            <p className="text-gray-600">Organize content with categories</p>
+          </Link>
+          
+          <Link to="/tags" className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
+            <h2 className="text-xl font-semibold mb-2">Tags</h2>
+            <p className="text-gray-600">Tag your content for better organization</p>
+          </Link>
+          
+          <Link to="/settings" className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
+            <h2 className="text-xl font-semibold mb-2">Settings</h2>
+            <p className="text-gray-600">Configure your application settings</p>
+          </Link>
         </div>
       </div>
     </div>
