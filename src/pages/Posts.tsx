@@ -70,6 +70,28 @@ const Posts = () => {
         }]);
       
       if (error) throw error;
+      
+      // Trigger n8n webhook if post is published
+      if (newPost.status === 'published') {
+        try {
+          await fetch('https://your-n8n-instance.com/webhook/cms-post-published', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              title: newPost.title,
+              excerpt: newPost.excerpt,
+              content: newPost.content,
+              slug: newPost.title.toLowerCase().replace(/\s+/g, '-'),
+              published_at: new Date().toISOString()
+            })
+          });
+        } catch (webhookError) {
+          console.log('Webhook failed (this is okay for now):', webhookError);
+        }
+      }
+      
       setNewPost({ title: '', content: '', excerpt: '', category_id: '', status: 'draft' });
       fetchPosts();
     } catch (error) {
